@@ -1,7 +1,6 @@
 {
 	"name": "svelte-overlay",
-	"version": "1.0.2",
-	"repository": "svelte-overlay",
+	"version": "1.0.3",
 	"description": "Svelte Overlay component. Great for creating dropdowns, tooltips and popovers",
 	"author": "Mariusz Wachowski",
 	"keywords": [
@@ -13,6 +12,7 @@
 		"popover"
 	],
 	"license": "MIT",
+	"repository": "https://github.com/wysher/svelte-overlay.git",
 	"devDependencies": {
 		"@babel/core": "7.9.0",
 		"@babel/plugin-syntax-dynamic-import": "7.8.3",
