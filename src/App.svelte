@@ -42,7 +42,7 @@
 		on:toggle={handleToggle}
 		{isOpen}>
 		<button slot="parent" let:toggle on:click={toggle}>Click Me!</button>
-		<div class="content" slot="content" let:close>
+		<div slot="content" class="content" let:close>
 			Lorem ipsum dolor sit.
 		</div>
 	</Overlay>

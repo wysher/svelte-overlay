@@ -34,7 +34,7 @@ it and how it looks.
 
   <!-- CONTENT -->
   <div slot="content">
-    <p>Lorem ipsum dolor sit.</p>
+    Lorem ipsum dolor sit.
   </div>
 
 </Overlay>
@@ -101,13 +101,13 @@ Each slot gets theese props, available through let:propName
   }
 </script>
 
-<Overlay>
-  <button slot="parent" closeOnClickOutside onWindowKeyDown={handleKeyDown} let:toggle on:click={toggle}>
+<Overlay closeOnClickOutside onWindowKeyDown={handleKeyDown}>
+  <button slot="parent" let:toggle on:click={toggle}>
     Click Me!
   </button>
 
   <div slot="content">
-    <p>Lorem ipsum dolor sit.</p>
+    Lorem ipsum dolor sit.
   </div>
 
 </Overlay>
@@ -127,7 +127,7 @@ Each slot gets theese props, available through let:propName
 
   <div slot="content" let:close>
     <p>Lorem ipsum dolor sit.</p>
-    <button on:click={close}>close</button>
+    <button on:click={close}>Close</button>
   </div>
 
 </Overlay>
@@ -146,7 +146,7 @@ Each slot gets theese props, available through let:propName
   </button>
 
   <div slot="content">
-    <p>Lorem ipsum dolor sit.</p>
+    Lorem ipsum dolor sit.
   </div>
 
 </Overlay>
@@ -178,7 +178,7 @@ Each slot gets theese props, available through let:propName
   </div>
 
   <div slot="content">
-    <p>Lorem ipsum dolor sit.</p>
+    Lorem ipsum dolor sit.
   </div>
 
 </Overlay>
