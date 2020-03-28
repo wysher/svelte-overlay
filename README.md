@@ -170,7 +170,7 @@ Each slot gets theese props, available through let:propName
   }
 </script>
 
-<button on:click={toggleFromOutside}>Click me I'm outside</button>
+<button on:click={toggleFromOutside}>Toggle from outside</button>
 
 <Overlay {isOpen} >
   <div slot="parent" on:toggle={handleToggle}>
