@@ -28,6 +28,14 @@
 	let widthStyle = 0;
 	let heightStyle = 0;
 
+	$: hasParent = !parent || !!parent.childNodes.length;
+	$: hasContent = !content || !!content.childNodes.length;
+
+	$: if(!hasParent) throw new Error('parent slot is required');
+	$: if(!hasContent) throw new Error('content slot is required');
+
+	$: openedState = isOpen && hasParent && hasContent;
+
 	onMount(() => {
 		portal = document.createElement('div');
 		document.body.appendChild(portal);
@@ -39,49 +47,50 @@
 		document.body.removeChild(portal);
 	});
 
-	beforeUpdate(() => {
-		if (!isOpen) return;
-		updatePosition();
-	});
+	beforeUpdate(updatePosition);
 
 	function toggle(value) {
-		isOpen = value === true || value === false ? value : !isOpen;
+		const prevOpen = isOpen;
+		const nextOpen = value === true || value === false ? value : !isOpen;
 
-		dispatch('toggle', isOpen);
-		if (isOpen) {
-			window.addEventListener('resize', updatePosition);
-			dispatch('open');
-		} else {
-			dispatch('close');
-			window.removeEventListener('resize', updatePosition);
+		if (nextOpen && hasParent && hasContent || !nextOpen) isOpen = nextOpen;
+
+		if(prevOpen !== isOpen) {
+			dispatch('toggle', isOpen);
+			if (isOpen) {
+				window.addEventListener('resize', updatePosition);
+				dispatch('open');
+			} else {
+				dispatch('close');
+				window.removeEventListener('resize', updatePosition);
+			}
 		}
+
 	}
 
 	function open() {
-		if (!isOpen) toggle(true);
+		if (!openedState) toggle(true);
 	}
 
 	function close() {
-		if (isOpen) toggle(false);
+		if (openedState) toggle(false);
 	}
 
-	const sharedProps = { isOpen, open, close, toggle };
-
 	function handleWindowClick(event) {
-		if (!closeOnClickOutside || !isOpen) return;
+		if (!closeOnClickOutside || !openedState) return;
 		const path = event.path || event.composedPath();
 		if (path.includes(parent) || path.includes(content)) return;
 		close();
 	}
 
 	function handleWindowKeyDown(event) {
-		if (!isOpen) return;
-		onWindowKeyDown(event, sharedProps);
+		if (!openedState) return;
+		onWindowKeyDown(event, { isOpen: openedState, open, close, toggle });
 	}
 
 	async function updatePosition() {
 		await tick();
-		if (!isOpen || !parent || !content) return;
+		if (!openedState) return;
 		if (!POSITIONS.includes(position)) position = DEFAULT_POSITION;
 		const [mainPosition, secondaryPosition] = position.split('-');
 
@@ -121,25 +130,18 @@
 
 <div class="overlay">
 	<div bind:this={parent}>
-		<slot name="parent" {toggle} {isOpen} {open} {close} />
+		<slot name="parent" {toggle} isOpen={openedState} {open} {close} />
 	</div>
-
 	<div
 		bind:this={contentWrapper}
 		class="content-wrapper"
-		style={`
-    top: ${topStyle}px;
-    left: ${leftStyle}px;
-    width: ${widthStyle}px;
-    height: ${heightStyle}px;
-  `}>
-		<div class={`content ${currentPosition || ''}`} bind:this={content}>
-			{#if isOpen && parent}
-				<slot name="content" {toggle} {isOpen} {open} {close} />
-			{/if}
-		</div>
+		style={`top: ${topStyle}px; left: ${leftStyle}px; width: ${widthStyle}px; height: ${heightStyle}px;`}>
+		{#if openedState}
+			<div class={`content ${currentPosition || ''}`} bind:this={content}>
+					<slot name="content" {toggle} isOpen={openedState} {open} {close} />
+			</div>
+		{/if}
 	</div>
-
 </div>
 
 <style>
@@ -165,10 +167,6 @@
   .content {
     position: absolute;
     min-width: 100%;
-  }
-
-  .autoWidth {
-    min-width: auto;
   }
 
   .top-left,

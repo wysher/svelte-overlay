@@ -4,7 +4,7 @@
 	} from './components/components.module.js';
 	import { fly } from 'svelte/transition';
 
-	let isOpen = false;
+	let isOpen = true;
 	let selectedPosition = POSITIONS[0];
 
 	let mouseOnContent = false;
@@ -42,7 +42,7 @@
 		on:toggle={handleToggle}
 		{isOpen}>
 		<button slot="parent" let:toggle on:click={toggle}>Click Me!</button>
-		<div slot="content" class="content" let:close>
+		<div transition:fly={{ y: 5, duration: 200 }} slot="content" class="content" let:close>
 			Lorem ipsum dolor sit.
 		</div>
 	</Overlay>
