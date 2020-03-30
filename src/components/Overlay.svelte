@@ -7,7 +7,7 @@
 		createEventDispatcher,
 	} from 'svelte';
 	import POSITIONS from './positions';
-	import { getMainPosition, getSecondaryPosition } from './helpers';
+	import { getNextPosition } from './helpers';
 	const dispatch = createEventDispatcher();
 
 	const DEFAULT_POSITION = POSITIONS[0];
@@ -109,13 +109,7 @@
 		const { height, width } = content.getBoundingClientRect();
 
 		const dimensions = { top, bottom, left, right, height, width };
-
-		const nextMainPosition = getMainPosition(mainPosition, dimensions);
-		const nextSecondaryPosition = getSecondaryPosition(
-			secondaryPosition,
-			dimensions
-		);
-		const nextPosition = `${nextMainPosition}-${nextSecondaryPosition}`;
+		const nextPosition = getNextPosition(position, dimensions);
 
 		if (currentPosition !== nextPosition) {
 			currentPosition = nextPosition;

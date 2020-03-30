@@ -4,7 +4,7 @@
 	} from './components/components.module.js';
 	import { fly } from 'svelte/transition';
 
-	let isOpen = true;
+	let isOpen = false;
 	let selectedPosition = POSITIONS[0];
 
 	let mouseOnContent = false;
@@ -51,8 +51,10 @@
 <style>
   section {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    /* justify-content: space-around; */
+    /* align-items: center; */
+		margin-top: 20em;
+		margin-left: 20em;
     flex-direction: column;
     height: 100vh;
     width: 100vw;
