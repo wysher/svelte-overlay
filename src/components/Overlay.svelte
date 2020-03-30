@@ -40,6 +40,10 @@
 		portal = document.createElement('div');
 		document.body.appendChild(portal);
 		portal.appendChild(contentWrapper);
+
+		if (openedState) {
+			window.addEventListener('resize', updatePosition);
+		}
 	});
 
 	onDestroy(() => {
