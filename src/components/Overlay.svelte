@@ -133,7 +133,7 @@
     width: ${widthStyle}px;
     height: ${heightStyle}px;
   `}>
-		<div class={`content ${currentPosition}`} bind:this={content}>
+		<div class={`content ${currentPosition || ''}`} bind:this={content}>
 			{#if isOpen && parent}
 				<slot name="content" {toggle} {isOpen} {open} {close} />
 			{/if}
