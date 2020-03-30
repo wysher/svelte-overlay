@@ -13,6 +13,7 @@
 	const DEFAULT_POSITION = POSITIONS[0];
 
 	export let isOpen = false;
+	export let updateOnScroll = false;
 	export let position = DEFAULT_POSITION;
 	export let closeOnClickOutside = false;
 	export let onWindowKeyDown = () => {};
@@ -43,11 +44,13 @@
 
 		if (openedState) {
 			window.addEventListener('resize', updatePosition);
+			if (updateOnScroll) window.addEventListener('scroll', updatePosition);
 		}
 	});
 
 	onDestroy(() => {
 		window.removeEventListener('resize', updatePosition);
+		window.removeEventListener('scroll', updatePosition);
 		document.body.removeChild(portal);
 	});
 
@@ -63,10 +66,12 @@
 			dispatch('toggle', isOpen);
 			if (isOpen) {
 				window.addEventListener('resize', updatePosition);
+				if (updateOnScroll) window.addEventListener('scroll', updatePosition);
 				dispatch('open');
 			} else {
 				dispatch('close');
 				window.removeEventListener('resize', updatePosition);
+				window.removeEventListener('scroll', updatePosition);
 			}
 		}
 

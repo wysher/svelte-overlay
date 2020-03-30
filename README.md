@@ -14,6 +14,7 @@ it and how it looks.
 - you decide how trigger and content looks
 - may be closed on click outside
 - may be closed on keydown
+- may update position on scroll
 - dispatches toggle event when open state changed
 
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
@@ -70,6 +71,7 @@ To get it work component requires two slots:
 | isOpen | Boolean | isOpen state | false |
 | position | String | `top-left`<br />`top-center`<br />`top-right`<br />`bottom-left`<br />`bottom-center`<br />`bottom-right`<br />`left-top`<br />`left-center`<br />`left-bottom`<br />`right-top`<br />`right-center`<br />`right-bottom`<br /><br />Uses default position when wrong position was passed | `bottom-right` |
 | closeOnClickOutside | Boolean | if true click outside will close overlay | false |
+| updateOnScroll | Boolean | if true scrolling will update content position | false |
 | onWindowKeyDown | Function | triggers when overlay is opened and user hit any button.<br/>Gets Event as first argument and object of { open, close, toggle, isOpen } | false |
 | on:toggle | Event | Event dispatched on overlay toggle.<br/>Gets Event as first argument and object of { open, close, toggle, isOpen } | false |
 

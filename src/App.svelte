@@ -40,6 +40,7 @@
 		position={selectedPosition}
 		onWindowKeyDown={handleKeyDown}
 		on:toggle={handleToggle}
+		updateOnScroll
 		{isOpen}>
 		<button slot="parent" let:toggle on:click={toggle}>Click Me!</button>
 		<div transition:fly={{ y: 5, duration: 200 }} slot="content" class="content" let:close>
