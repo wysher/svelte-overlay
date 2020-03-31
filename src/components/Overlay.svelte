@@ -14,6 +14,7 @@
 
 	export let isOpen = false;
 	export let updateOnScroll = false;
+	export let closeOnScroll = false;
 	export let position = DEFAULT_POSITION;
 	export let closeOnClickOutside = false;
 	export let onWindowKeyDown = () => {};
@@ -37,20 +38,30 @@
 
 	$: openedState = isOpen && hasParent && hasContent;
 
+	function addListeners() {
+		window.addEventListener('resize', updatePosition);
+		if (closeOnScroll) window.addEventListener('scroll', close);
+		else if (updateOnScroll) window.addEventListener('scroll', updatePosition);
+	}
+
+	function removeListeners() {
+		window.removeEventListener('resize', updatePosition);
+		window.removeEventListener('scroll', updatePosition);
+		window.removeEventListener('scroll', close);
+	}
+
 	onMount(() => {
 		portal = document.createElement('div');
 		document.body.appendChild(portal);
 		portal.appendChild(contentWrapper);
 
 		if (openedState) {
-			window.addEventListener('resize', updatePosition);
-			if (updateOnScroll) window.addEventListener('scroll', updatePosition);
+			addListeners();
 		}
 	});
 
 	onDestroy(() => {
-		window.removeEventListener('resize', updatePosition);
-		window.removeEventListener('scroll', updatePosition);
+		removeListeners();
 		document.body.removeChild(portal);
 	});
 
@@ -65,13 +76,11 @@
 		if(prevOpen !== isOpen) {
 			dispatch('toggle', isOpen);
 			if (isOpen) {
-				window.addEventListener('resize', updatePosition);
-				if (updateOnScroll) window.addEventListener('scroll', updatePosition);
+				addListeners();
 				dispatch('open');
 			} else {
 				dispatch('close');
-				window.removeEventListener('resize', updatePosition);
-				window.removeEventListener('scroll', updatePosition);
+				removeListeners();
 			}
 		}
 
