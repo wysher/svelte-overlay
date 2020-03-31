@@ -2,6 +2,7 @@
 **/dist/**
 **/node_modules/**
 **/public/bundle.*
+.env
 
 cypress/videos
 cypress/screenshots
