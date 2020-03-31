@@ -176,7 +176,7 @@ Each slot gets theese props, available through let:propName
 
 <Overlay {isOpen} >
   <div slot="parent" on:toggle={handleToggle}>
-    I'm a parent
+    I am a parent
   </div>
 
   <div slot="content">
