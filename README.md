@@ -69,11 +69,12 @@ To get it work component requires two slots:
 | --- |  --- | --- | --- |
 | isOpen | Boolean | isOpen state | false |
 | position | String | `top-left`<br />`top-center`<br />`top-right`<br />`bottom-left`<br />`bottom-center`<br />`bottom-right`<br />`left-top`<br />`left-center`<br />`left-bottom`<br />`right-top`<br />`right-center`<br />`right-bottom`<br /><br />Uses default position when wrong position was passed | `bottom-right` |
+| zIndex | Number | value of z-index for overlay and portaled content | 1 |
 | closeOnClickOutside | Boolean | if true click outside will close overlay | false |
 | closeOnScroll | Boolean | if true scrolling outside content will close overlay | false |
 | updateOnScroll | Boolean | if true scrolling will update content position | false |
-| onWindowKeyDown | Function | triggers when overlay is opened and user hit any button.<br/>Gets Event as first argument and object of { open, close, toggle, isOpen } | false |
-| on:toggle | Event | Event dispatched on overlay toggle.<br/>Gets Event as first argument and object of { open, close, toggle, isOpen } | false |
+| onWindowKeyDown | Function | triggers when overlay is opened and user hit any button.<br/>Gets Event as first argument and object of { open, close, toggle, isOpen } | |
+| on:toggle | Function | Event dispatched on overlay toggle.<br/>Gets Event as first argument and object of { open, close, toggle, isOpen } | |
 
 **slot props**
 
@@ -184,6 +185,67 @@ Each slot gets theese props, available through let:propName
   </div>
 
 </Overlay>
+```
+
+### With backdrop, disabled scroll and animations
+
+```javascript
+<script>
+  import Overlay from 'svelte-overlay';
+  import { fly, fade } from 'svelte/transition';
+
+  let isOpen = false;
+
+  function handleToggle(event) {
+    if (event.detail !== isOpen) isOpen = event.detail;
+    document.body.classList.toggle('no-scroll', isOpen);
+  }
+</script>
+
+{#if isOpen}
+  <div class="backdrop" transition:fade={{ duration: 200 }}/>
+{/if}
+
+<Overlay
+  on:toggle={handleToggle}
+  closeOnClickOutside
+  zIndex={100}
+  {isOpen}>
+  <button slot="parent" let:toggle on:click={toggle}>Click Me!</button>
+  <div transition:fly={{ y: 5, duration: 200 }} slot="content" class="content">
+    Lorem ipsum dolor sit.
+  </div>
+</Overlay>
+
+<style>
+  :global(.no-scroll) {
+    overflow: hidden;
+  }
+
+  .backdrop {
+    background: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 99;
+  }
+
+  .content {
+    border: 1px solid #ddd;
+    background: #f7f7f7;
+    text-align: center;
+    padding: 1em;
+    width: max-content;
+    max-width: 200px;
+    max-height: 100px;
+    overflow: auto;
+  }
+</style>
+
 ```
 
 ---

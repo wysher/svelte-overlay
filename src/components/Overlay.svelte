@@ -17,6 +17,7 @@
 	export let closeOnScroll = false;
 	export let position = DEFAULT_POSITION;
 	export let closeOnClickOutside = false;
+	export let zIndex = 1;
 	export let onWindowKeyDown = () => {};
 
 	let currentPosition = null;
@@ -139,14 +140,14 @@
 	on:mousedown={handleWindowClick}
 	on:keydown={handleWindowKeyDown} />
 
-<div class="overlay">
+<div class="overlay" style={`z-index:${zIndex};`}>
 	<div bind:this={parent}>
 		<slot name="parent" {toggle} isOpen={openedState} {open} {close} />
 	</div>
 	<div
 		bind:this={contentWrapper}
 		class="content-wrapper"
-		style={`top: ${topStyle}px; left: ${leftStyle}px; width: ${widthStyle}px; height: ${heightStyle}px;`}>
+		style={`top: ${topStyle}px; left: ${leftStyle}px; width: ${widthStyle}px; height: ${heightStyle}px; z-index:${zIndex};`}>
 		{#if openedState}
 			<div class={`content ${currentPosition || ''}`} bind:this={content}>
 					<slot name="content" {toggle} isOpen={openedState} {open} {close} />
