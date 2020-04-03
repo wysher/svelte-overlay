@@ -1,6 +1,6 @@
 {
 	"name": "svelte-overlay",
-	"version": "1.2.0",
+	"version": "1.2.2",
 	"description": "Svelte Overlay component. Great for creating dropdowns, tooltips and popovers",
 	"author": "Mariusz Wachowski",
 	"keywords": [
