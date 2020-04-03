@@ -110,7 +110,6 @@
 		await tick();
 		if (!openedState) return;
 		if (!POSITIONS.includes(position)) position = DEFAULT_POSITION;
-		const [mainPosition, secondaryPosition] = position.split('-');
 
 		const {
 			top,
