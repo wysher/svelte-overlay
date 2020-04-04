@@ -197,8 +197,10 @@ Each slot gets theese props, available through let:propName
   let isOpen = false;
 
   function handleToggle(event) {
-    if (event.detail !== isOpen) isOpen = event.detail;
-    document.body.classList.toggle('no-scroll', isOpen);
+    if (event.detail !== isOpen) {
+      isOpen = event.detail;
+      document.body.classList.toggle('no-scroll', isOpen);
+    }
   }
 </script>
 
@@ -212,7 +214,7 @@ Each slot gets theese props, available through let:propName
   zIndex={100}
   {isOpen}>
   <button slot="parent" let:toggle on:click={toggle}>Click Me!</button>
-  <div transition:fly={{ y: 5, duration: 200 }} slot="content" class="content">
+  <div slot="content" transition:fly={{ y: 5, duration: 200 }} class="content">
     Lorem ipsum dolor sit.
   </div>
 </Overlay>
@@ -223,21 +225,20 @@ Each slot gets theese props, available through let:propName
   }
 
   .backdrop {
-    background: rgba(0, 0, 0, 0.2);
-    width: 100%;
-    height: 100%;
+    z-index: 99;
     position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 99;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
   }
 
   .content {
     border: 1px solid #ddd;
     background: #f7f7f7;
-    text-align: center;
     padding: 1em;
     width: max-content;
     max-width: 200px;
