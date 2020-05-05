@@ -40,12 +40,14 @@
 	$: openedState = isOpen && hasParent && hasContent;
 
 	function addListeners() {
+		if (!window) return;
 		window.addEventListener('resize', updatePosition);
 		if (closeOnScroll) window.addEventListener('scroll', close);
 		else if (updateOnScroll) window.addEventListener('scroll', updatePosition);
 	}
 
 	function removeListeners() {
+		if (!window) return;
 		window.removeEventListener('resize', updatePosition);
 		window.removeEventListener('scroll', updatePosition);
 		window.removeEventListener('scroll', close);
