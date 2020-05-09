@@ -39,6 +39,7 @@
 	<Overlay
 		position={selectedPosition}
 		onWindowKeyDown={handleKeyDown}
+		closeOnClickOutside
 		on:toggle={handleToggle}
 		closeOnScroll
 		{isOpen}>

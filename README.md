@@ -70,6 +70,8 @@ To get it work component requires two slots:
 | isOpen | Boolean | isOpen state | false |
 | position | String | `top-left`<br />`top-center`<br />`top-right`<br />`bottom-left`<br />`bottom-center`<br />`bottom-right`<br />`left-top`<br />`left-center`<br />`left-bottom`<br />`right-top`<br />`right-center`<br />`right-bottom`<br /><br />Uses default position when wrong position was passed | `bottom-right` |
 | zIndex | Number | value of z-index for overlay and portaled content | 1 |
+| class | string | global class name | '' |
+| style | string | style string which will be added at the end of component style attribute | '' |
 | closeOnClickOutside | Boolean | if true click outside will close overlay | false |
 | closeOnScroll | Boolean | if true scrolling outside content will close overlay | false |
 | updateOnScroll | Boolean | if true scrolling will update content position | false |

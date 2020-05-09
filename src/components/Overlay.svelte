@@ -19,6 +19,9 @@
 	export let closeOnClickOutside = false;
 	export let zIndex = 1;
 	export let onWindowKeyDown = () => {};
+	export let style = '';
+
+	$: className = $$restProps['class'] || '';
 
 	let currentPosition = null;
 	let parent;
@@ -142,7 +145,7 @@
 	on:mousedown={handleWindowClick}
 	on:keydown={handleWindowKeyDown} />
 
-<div class="overlay" style={`z-index:${zIndex};`}>
+<div class={`overlay ${className}`} style={`z-index:${zIndex}; ${style}`}>
 	<div bind:this={parent}>
 		<slot name="parent" {toggle} isOpen={openedState} {open} {close} />
 	</div>
@@ -159,13 +162,10 @@
 </div>
 
 <style>
-  div {
-    display: inline-block;
-    box-sizing: border-box;
-  }
-
   .overlay {
     position: relative;
+		display: inline-block;
+		box-sizing: border-box;
   }
 
   .content-wrapper {
