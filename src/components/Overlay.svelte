@@ -42,21 +42,27 @@
 
 	$: openedState = isOpen && hasParent && hasContent;
 
+	// for SSR
+	function isBrowser() {
+		return typeof window !== 'undefined' && typeof document !== 'undefined';
+	}
+
 	function addListeners() {
-		if (!window) return;
+		if (!isBrowser()) return;
 		window.addEventListener('resize', updatePosition);
 		if (closeOnScroll) window.addEventListener('scroll', close);
 		else if (updateOnScroll) window.addEventListener('scroll', updatePosition);
 	}
 
 	function removeListeners() {
-		if (!window) return;
+		if (!isBrowser()) return;
 		window.removeEventListener('resize', updatePosition);
 		window.removeEventListener('scroll', updatePosition);
 		window.removeEventListener('scroll', close);
 	}
 
 	onMount(() => {
+		if (!isBrowser()) return;
 		portal = document.createElement('div');
 		document.body.appendChild(portal);
 		portal.appendChild(contentWrapper);
@@ -67,9 +73,11 @@
 	});
 
 	onDestroy(() => {
+		if (!isBrowser()) return;
 		removeListeners();
 		document.body.removeChild(portal);
 	});
+
 
 	beforeUpdate(updatePosition);
 
