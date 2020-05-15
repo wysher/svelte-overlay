@@ -18,7 +18,7 @@ it and how it looks.
 
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 
-## Example
+## Example [REPL](https://svelte.dev/repl/59ae56c6e9f544c7a098bb961843a310?version=3.22.2)
 
 ```javascript
 <script>
@@ -96,29 +96,10 @@ Each slot gets theese props, available through let:propName
 ### Close on escape keydown and click outside
 
 ```javascript
-<script>
-  import Overlay from 'svelte-overlay';
 
-  function handleKeyDown(event, { close }) {
-    if (event.key === 'Escape') {
-      close();
-    }
-  }
-</script>
-
-<Overlay closeOnClickOutside onWindowKeyDown={handleKeyDown}>
-  <button slot="parent" let:toggle on:click={toggle}>
-    Click Me!
-  </button>
-
-  <div slot="content">
-    Lorem ipsum dolor sit.
-  </div>
-
-</Overlay>
 ```
 
-### Close from content
+### Close from content [REPL](https://svelte.dev/repl/a13dde11268a4ec6a560add54287c8f2?version=3.22.2)
 
 ```javascript
 <script>
@@ -138,7 +119,7 @@ Each slot gets theese props, available through let:propName
 </Overlay>
 ```
 
-### Open/close on mouseenter/mouseleave
+### Open/close on mouseenter/mouseleave [REPL](https://svelte.dev/repl/d04cf212c9a8406aad8932ca039634ac?version=3.22.2)
 
 ```javascript
 <script>
@@ -147,7 +128,7 @@ Each slot gets theese props, available through let:propName
 
 <Overlay>
   <button slot="parent" let:open let:close on:mouseenter={open} on:mouseleave={close}>
-    Click Me!
+    Hover Me!
   </button>
 
   <div slot="content">
@@ -157,7 +138,7 @@ Each slot gets theese props, available through let:propName
 </Overlay>
 ```
 
-### Open from outside
+### Open from outside [REPL](https://svelte.dev/repl/f96379b640d74556bf415ae8d74b2598?version=3.22.2)
 
 ```javascript
 <script>
@@ -189,8 +170,8 @@ Each slot gets theese props, available through let:propName
 </Overlay>
 ```
 
-### With backdrop, disabled scroll and animations
-
+### With backdrop, disabled scroll and animations [REPL](https://svelte.dev/repl/cf3db92312394dd1a6efaf3374118b2c?version=3.22.2)
+****
 ```javascript
 <script>
   import Overlay from 'svelte-overlay';
@@ -243,9 +224,6 @@ Each slot gets theese props, available through let:propName
     background: #f7f7f7;
     padding: 1em;
     width: max-content;
-    max-width: 200px;
-    max-height: 100px;
-    overflow: auto;
   }
 </style>
 
