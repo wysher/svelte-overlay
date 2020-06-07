@@ -8,7 +8,6 @@ Svelte overlay is wrapper copmponent which makes all difficult stuff for you, bu
 it and how it looks.
 
 ## Features
-- it's portaled (always visible, even if inside e.g modal with overflow: hidden)
 - may be nested
 - if content has not enough space on one side it will try to render on other side. For instance if position is set to `top-left` and there's no room on top position will be set to `bottom-left`. This feature listens to window resize event
 - may be open/closed on every trigger and content event or from outside
