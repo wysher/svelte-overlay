@@ -7,7 +7,7 @@
 		createEventDispatcher,
 	} from 'svelte';
 	import POSITIONS from './positions';
-	import { getNextPosition } from './helpers';
+	import { isBrowser, getNextPosition } from './helpers';
 	const dispatch = createEventDispatcher();
 
 	const DEFAULT_POSITION = POSITIONS[0];
@@ -25,9 +25,8 @@
 
 	let currentPosition = null;
 	let parent;
-	let contentWrapper;
 	let content;
-	let portal;
+	let target;
 
 	let topStyle = 0;
 	let leftStyle = 0;
@@ -41,11 +40,6 @@
 	$: if(!hasContent) throw new Error('content slot is required');
 
 	$: openedState = isOpen && hasParent && hasContent;
-
-	// for SSR
-	function isBrowser() {
-		return typeof window !== 'undefined' && typeof document !== 'undefined';
-	}
 
 	function addListeners() {
 		if (!isBrowser()) return;
@@ -62,11 +56,6 @@
 	}
 
 	onMount(() => {
-		if (!isBrowser()) return;
-		portal = document.createElement('div');
-		document.body.appendChild(portal);
-		portal.appendChild(contentWrapper);
-
 		if (openedState) {
 			addListeners();
 		}
@@ -75,7 +64,6 @@
 	onDestroy(() => {
 		if (!isBrowser()) return;
 		removeListeners();
-		document.body.removeChild(portal);
 	});
 
 
@@ -108,16 +96,19 @@
 		if (openedState) toggle(false);
 	}
 
-	function handleWindowClick(event) {
-		if (!closeOnClickOutside || !openedState) return;
+	function contains (event) {
 		const path = event.path || event.composedPath();
-		if (path.includes(parent) || path.includes(content)) return;
+		return path.includes(parent) || path.includes(content);
+	}
+
+	function handleWindowClick(event) {
+		if (!closeOnClickOutside || !openedState || contains(event)) return;
 		close();
 	}
 
 	function handleWindowKeyDown(event) {
-		if (!openedState) return;
-		onWindowKeyDown(event, { isOpen: openedState, open, close, toggle });
+		if (!onWindowKeyDown || !openedState) return;
+		onWindowKeyDown(event, { isOpen: openedState, open, close, toggle, contains });
 	}
 
 	async function updatePosition() {
@@ -153,14 +144,14 @@
 	on:mousedown={handleWindowClick}
 	on:keydown={handleWindowKeyDown} />
 
-<div class={`overlay ${className}`} style={`z-index:${zIndex}; ${style}`}>
+<div bind:this={target} class={`overlay ${className}`} style={`z-index:${zIndex}; ${style}`}>
 	<div bind:this={parent}>
 		<slot name="parent" {toggle} isOpen={openedState} {open} {close} />
 	</div>
 	<div
-		bind:this={contentWrapper}
 		class="content-wrapper"
-		style={`top: ${topStyle}px; left: ${leftStyle}px; width: ${widthStyle}px; height: ${heightStyle}px; z-index:${zIndex};`}>
+		style={`top: ${topStyle}px; left: ${leftStyle}px; width: ${widthStyle}px; height: ${heightStyle}px; z-index:${zIndex};`}
+	>
 		{#if openedState}
 			<div class={`content ${currentPosition || ''}`} bind:this={content}>
 					<slot name="content" {toggle} isOpen={openedState} {open} {close} />

@@ -4,6 +4,11 @@ const TOP = "top";
 const CENTER = "center";
 const BOTTOM = "bottom";
 
+// for SSR
+export function isBrowser() {
+  return typeof window !== 'undefined' && typeof document !== 'undefined';
+}
+
 export const getNextPosition = (position, dimensions) => {
   const clientHeight = Math.min(document.body.clientHeight, document.documentElement.clientHeight);
   const clientWidth = Math.min(document.body.clientWidth, document.documentElement.clientWidth);
