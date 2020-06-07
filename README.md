@@ -4,8 +4,7 @@
 
 > Great for creating dropdowns, tooltips and popovers
 
-Svelte overlay is wrapper copmponent which makes all difficult stuff for you, but you decide when to open/close 
-it and how it looks.
+Svelte overlay is wrapper copmponent which makes all difficult stuff for you, but you decide when to open/close it and how it looks.
 
 ## Features
 - may be nested
@@ -65,18 +64,18 @@ To get it work component requires two slots:
 
 **Overlay props**
 
-| Prop name | Type | Description | Default |
+| Prop name | Type | Default | Description |
 | --- |  --- | --- | --- |
-| isOpen | Boolean | isOpen state | false |
-| position | String | `top-left`<br />`top-center`<br />`top-right`<br />`bottom-left`<br />`bottom-center`<br />`bottom-right`<br />`left-top`<br />`left-center`<br />`left-bottom`<br />`right-top`<br />`right-center`<br />`right-bottom`<br /><br />Uses default position when wrong position was passed | `bottom-right` |
-| zIndex | Number | value of z-index for overlay and portaled content | 1 |
-| class | string | global class name | '' |
-| style | string | style string which will be added at the end of component style attribute | '' |
-| closeOnClickOutside | Boolean | if true click outside will close overlay | false |
-| closeOnScroll | Boolean | if true scrolling outside content will close overlay | false |
-| updateOnScroll | Boolean | if true scrolling will update content position | false |
-| onWindowKeyDown | Function | triggers when overlay is opened and user hit any button.<br/>Gets Event as first argument and object of { open, close, toggle, isOpen } | |
-| on:toggle | Function | Event dispatched on overlay toggle.<br/>Gets Event as first argument and object of { open, close, toggle, isOpen } | |
+| isOpen | Boolean | false | isOpen state |
+| position | String | `bottom-right` | `top-left`<br />`top-center`<br />`top-right`<br />`bottom-left`<br />`bottom-center`<br />`bottom-right`<br />`left-top`<br />`left-center`<br />`left-bottom`<br />`right-top`<br />`right-center`<br />`right-bottom`<br /><br />Uses default position when wrong position was passed.<br/> You may import array of all positions with:<br /> ``` import { positions } from 'svelte-overlay'; ``` |
+| zIndex | Number | 1 | value of z-index for overlay and content |
+| class | string | "" | global class name |
+| style | string | "" | style string which will be added at the end of component style attribute |
+| closeOnClickOutside | Boolean | false | if true - click outside will close overlay |
+| closeOnScroll | Boolean | false | if true - scrolling outside content will close overlay |
+| updateOnScroll | Boolean | false | if true - scrolling will update content position |
+| onWindowKeyDown | Function | undefined | triggers when overlay is opened and user hit any button.<br/>Gets Event as first argument and object of { open, close, toggle, isOpen } |
+| on:toggle | Function | undefined | Event dispatched on overlay toggle.<br/>Gets Event as first argument and object of { open, close, toggle, isOpen } |
 
 **slot props**
 
@@ -144,6 +143,7 @@ Each slot gets theese props, available through let:propName
 </Overlay>
 ```
 
+---
 ### Open/close on mouseenter/mouseleave [REPL](https://svelte.dev/repl/d04cf212c9a8406aad8932ca039634ac?version=3.22.2)
 
 ```javascript
@@ -163,6 +163,7 @@ Each slot gets theese props, available through let:propName
 </Overlay>
 ```
 
+---
 ### Open from outside [REPL](https://svelte.dev/repl/f96379b640d74556bf415ae8d74b2598?version=3.22.2)
 
 ```javascript
@@ -189,8 +190,9 @@ Each slot gets theese props, available through let:propName
 </Overlay>
 ```
 
+---
 ### With backdrop, disabled scroll and animations [REPL](https://svelte.dev/repl/cf3db92312394dd1a6efaf3374118b2c?version=3.22.2)
-****
+
 ```javascript
 <script>
   import Overlay from 'svelte-overlay';
@@ -248,6 +250,7 @@ Each slot gets theese props, available through let:propName
 
 ```
 
+---
 ### Nested with click outside and close on esc key [REPL](https://svelte.dev/repl/284b4a09eddc4b64b5bd6734712d30ee?version=3.22.2)
 
 ```javascript
