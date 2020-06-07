@@ -9,6 +9,7 @@ it and how it looks.
 
 ## Features
 - it's portaled (always visible, even if inside e.g modal with overflow: hidden)
+- may be nested
 - if content has not enough space on one side it will try to render on other side. For instance if position is set to `top-left` and there's no room on top position will be set to `bottom-left`. This feature listens to window resize event
 - may be open/closed on every trigger and content event or from outside
 - you decide how trigger and content looks
@@ -93,10 +94,35 @@ Each slot gets theese props, available through let:propName
 
 ## Usage
 
-### Close on escape keydown and click outside
+### Close on escape keydown and click outside [REPL](https://svelte.dev/repl/08a2a569d1354426ab747445ece60fcb?version=3.22.2)
 
 ```javascript
+<script>
+  import Overlay from 'svelte-overlay';
+	let isOpen = false;
+	
+	function handleWindowKeyDown(event) {
+		if (event.key === 'Escape') {
+			isOpen = false;	
+		}
+	}
+</script>
 
+<Overlay
+	onWindowKeyDown={handleWindowKeyDown}
+	closeOnClickOutside
+	bind:isOpen={isOpen}
+>
+  <button slot="parent" let:toggle on:click={toggle}>
+    Click Me!
+  </button>
+
+  <div slot="content" let:close>
+    <p>Lorem ipsum dolor sit.</p>
+    <button on:click={close}>Close</button>
+  </div>
+
+</Overlay>
 ```
 
 ### Close from content [REPL](https://svelte.dev/repl/a13dde11268a4ec6a560add54287c8f2?version=3.22.2)
@@ -145,12 +171,6 @@ Each slot gets theese props, available through let:propName
   import Overlay from 'svelte-overlay';
   let isOpen = false;
 
-  function handleToggle(event) {
-    if (event.detail !== isOpen) {
-      isOpen = event.detail;
-    }
-  }
-
   function toggleFromOutside() {
     isOpen = !isOpen;
   }
@@ -158,8 +178,8 @@ Each slot gets theese props, available through let:propName
 
 <button on:click={toggleFromOutside}>Toggle from outside</button>
 
-<Overlay {isOpen} >
-  <div slot="parent" on:toggle={handleToggle}>
+<Overlay bind:isOpen={isOpen} >
+  <div slot="parent">
     I am a parent
   </div>
 
@@ -195,7 +215,7 @@ Each slot gets theese props, available through let:propName
   on:toggle={handleToggle}
   closeOnClickOutside
   zIndex={100}
-  {isOpen}>
+  bind:isOpen={isOpen}>
   <button slot="parent" let:toggle on:click={toggle}>Click Me!</button>
   <div slot="content" transition:fly={{ y: 5, duration: 200 }} class="content">
     Lorem ipsum dolor sit.
@@ -227,6 +247,32 @@ Each slot gets theese props, available through let:propName
   }
 </style>
 
+```
+
+### Nested with click outside and close on esc key [REPL](https://svelte.dev/repl/284b4a09eddc4b64b5bd6734712d30ee?version=3.22.2)
+
+```javascript
+<script>
+  import Overlay from 'svelte-overlay';
+  let isOpen = false;
+
+  function toggleFromOutside() {
+    isOpen = !isOpen;
+  }
+</script>
+
+<button on:click={toggleFromOutside}>Toggle from outside</button>
+
+<Overlay bind:isOpen={isOpen} >
+  <div slot="parent">
+    I am a parent
+  </div>
+
+  <div slot="content">
+    Lorem ipsum dolor sit.
+  </div>
+
+</Overlay>
 ```
 
 ---
