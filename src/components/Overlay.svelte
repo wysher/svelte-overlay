@@ -20,8 +20,8 @@
 	export let zIndex = 1;
 	export let onWindowKeyDown = () => {};
 	export let style = '';
-
-	$: className = $$restProps['class'] || '';
+	let className = '';
+	export { className as class };
 
 	let currentPosition = null;
 	let parent;
