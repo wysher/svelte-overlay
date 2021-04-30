@@ -7,6 +7,7 @@ import pkg from './package.json';
 import resolve from 'rollup-plugin-node-resolve';
 import svelte from 'rollup-plugin-svelte';
 import css from 'rollup-plugin-css-only';
+import typescript from '@rollup/plugin-typescript';
 
 const production = !process.env.ROLLUP_WATCH;
 const name = pkg.name
@@ -54,6 +55,7 @@ export default {
 		}),
 
     css({ output: 'bundle.css' }),
+    typescript({ sourceMap: !production }),
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
