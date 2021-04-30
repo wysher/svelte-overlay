@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import {
 		beforeUpdate,
 		onMount,
@@ -7,26 +7,35 @@
 		createEventDispatcher,
 	} from 'svelte';
 	import POSITIONS from './positions';
+  import type { Position } from './positions';
 	import { isBrowser, getNextPosition } from './helpers';
 	const dispatch = createEventDispatcher();
 
 	const DEFAULT_POSITION = POSITIONS[0];
 
+  interface OnWindowKeyDownProps {
+    isOpen: boolean,
+    open: Function,
+    close: Function,
+    toggle: Function,
+    contains: Function,
+  }
+
 	export let isOpen = false;
 	export let updateOnScroll = false;
 	export let closeOnScroll = false;
-	export let position = DEFAULT_POSITION;
+	export let position: Position = DEFAULT_POSITION;
 	export let closeOnClickOutside = false;
 	export let zIndex = 1;
-	export let onWindowKeyDown = () => {};
+	export let onWindowKeyDown: (event: Event, props: OnWindowKeyDownProps) => void = () => {};
 	export let style = '';
 
 	$: className = $$restProps['class'] || '';
 
 	let currentPosition = null;
-	let parent;
-	let content;
-	let target;
+	let parent: HTMLElement;
+	let content: HTMLElement;
+	let target: HTMLElement;
 
 	let topStyle = 0;
 	let leftStyle = 0;
@@ -69,7 +78,7 @@
 
 	beforeUpdate(updatePosition);
 
-	function toggle(value) {
+	function toggle(value?: boolean) {
 		const prevOpen = isOpen;
 		const nextOpen = value === true || value === false ? value : !isOpen;
 
@@ -96,17 +105,22 @@
 		if (openedState) toggle(false);
 	}
 
-	function contains (event) {
+  interface MouseEventWithPath extends MouseEvent {
+    path: Node[],
+  }
+
+	function contains (event: MouseEventWithPath) {
+    console.log('event.path', event)
 		const path = event.path || event.composedPath();
 		return path.includes(parent) || path.includes(content);
 	}
 
-	function handleWindowClick(event) {
+	function handleWindowClick(event: MouseEventWithPath) {
 		if (!closeOnClickOutside || !openedState || contains(event)) return;
 		close();
 	}
 
-	function handleWindowKeyDown(event) {
+	function handleWindowKeyDown(event: Event) {
 		if (!onWindowKeyDown || !openedState) return;
 		onWindowKeyDown(event, { isOpen: openedState, open, close, toggle, contains });
 	}
