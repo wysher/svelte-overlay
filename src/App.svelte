@@ -63,10 +63,8 @@
 <style>
   section {
     display: flex;
-    /* justify-content: space-around; */
-    /* align-items: center; */
-		margin-top: 20em;
-		margin-left: 20em;
+    justify-content: space-around;
+    align-items: center;
     flex-direction: column;
     height: 100vh;
     width: 100vw;
