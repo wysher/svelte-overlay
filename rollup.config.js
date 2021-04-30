@@ -6,6 +6,7 @@ import livereload from 'rollup-plugin-livereload';
 import pkg from './package.json';
 import resolve from 'rollup-plugin-node-resolve';
 import svelte from 'rollup-plugin-svelte';
+import css from 'rollup-plugin-css-only';
 
 const production = !process.env.ROLLUP_WATCH;
 const name = pkg.name
@@ -42,12 +43,6 @@ export default {
 		}),
 		svelte({
 			// enable run-time checks when not in production
-			dev: !production,
-			// we'll extract any component CSS out into
-			// a separate file — better for performance
-			css: (css) => {
-				css.write('public/bundle.css');
-			},
 
 			/**
 			 * Auto preprocess supported languages with
@@ -55,9 +50,10 @@ export default {
 			 **/
 			preprocess: autoPreprocess({
 				postcss: true,
-				scss: { includePaths: ['src', 'node_modules'] },
 			}),
 		}),
+
+    css({ output: 'bundle.css' }),
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
